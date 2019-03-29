@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main>
+    <nav class="main-nav">
+      <ul class="main-nav__items">
+        <li class="main-nav__item"><a href="users">login</a></li>
+        <li class="main-nav__item"><a href="register.html">register</a></li>
+      </ul>
+    </nav>
+  </main>
+  <h1 class="users-header">Users List</h1>
+  <div class="users"></div>
+
+  <!-- <script src="./main.js"></script> -->
+  <script>
+    const xhr = new XMLHttpRequest();
+    xhr.open('get', 'users.json', true);
+    xhr.onload = function () {
+      if (this.status == 200) {
+        let users = JSON.parse(this.responseText);
+        let output = ''
+        users.forEach(user => {
+          output += `
+          <div class="users-list">
+          <ul class="users-list__items">
+          <li>Name: ${user.name}</li>
+          <li>Email: ${user.email}</li>
+          <li>Username: ${user.username}</li>
+          <li>street: ${user.address.street}</li>
+          <li>Suite: ${user.address.suite}</li>
+          <li>City: ${user.address.city}</li>
+          <button>delete</button>
+          </ul>
+          </div> 
+          <br>`
+          document.querySelector('.users').innerHTML = output
+        });
+      }
+    }
+    xhr.send();
+  </script>
+</body>
+
+</html>

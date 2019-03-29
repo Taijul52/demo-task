@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main>
+    <nav class="main-nav">
+      <ul class="main-nav__items">
+        <li class="main-nav__item"><a href="login.html">login</a></li>
+        <li class="main-nav__item"><a href="register.html">register</a></li>
+      </ul>
+    </nav>
+  </main>
+  <div class="login-form">
+    <div class="login">
+      <h1 class="login-header"> Login to see the users List</h1>
+      <div class="msg"></div>
+      <form action="" id="form">
+        <lable id="username-label">Username</lable>
+        <input type="text" id="username" /><br>
+        <label for="" id="username-label">Password</label>
+        <input type="password" id="password" /><br>
+        <input type="submit" value="submit" id="submit">
+      </form>
+    </div>
+  </div>
+  <footer class="main-footer">
+    <div class="footer-item-index">
+      <p> &copy; Users Json</p>
+    </div>
+  </footer>
+  <script>
+    const form = document.querySelector('#form').addEventListener('submit', loginUser)
+    const username = document.querySelector('#username');
+    const password = document.querySelector('#password');
+    const msg = document.querySelector('.msg')
+
+    function loginUser(e) {
+      e.preventDefault();
+      if (username.value == '' || password == '') {
+        msg.textContent = 'Please fill the field';
+        setTimeout(() => msg.remove(), 3000);
+      } else {
+        const xhr = new XMLHttpRequest();
+        xhr.open('get', 'users.json', true);
+        xhr.onload = function () {
+          if (this.status == 200) {
+            let users = JSON.parse(this.responseText);
+
+            users.forEach(user => {
+              if (user.username == username.value && user.password == password.value) {
+                window.location = 'register.html';
+              } else {
+                msg.textContent = "Username or password not matched"
+                setTimeout(() => msg.remove(), 3000);
+              }
+            });
+          }
+        }
+        xhr.send();
+      }
+
+    }
+  </script>
+</body>
+
+</html>
